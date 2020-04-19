@@ -9,8 +9,9 @@
       "pattern": "-yyyy-MM-dd"
     },
     "errorFile": {
-      "type": "file",
-      "filename": "log/errors.log"
+      "type": "dateFile",
+      "filename": "log/errors.log",
+      "pattern": "-yyyy-MM-dd"
     },
     "errors": {
       "type": "logLevelFilter",

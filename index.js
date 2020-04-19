@@ -14,17 +14,18 @@ dotenv.config({
 });
 
 // variable
-const successUrls = [];
+const successFilenames = [];
+// const successFilenames = ['463. Ahiru no Sora Opening 3 HQ Full - 『Humming Bird』 by BLUE ENCOUNT.mp4']; // test
 const logger = log4js.getLogger();
 let count = process.env.VIDEO_COUNT;
 const urlFilePath = process.env.URL_FILE_PATH;
 const downloadFolderPath = process.env.DOWNLOAD_FOLDER_PATH;
 
 // process
-const answer = '';//readlineSync.question('Does convert download video to mp3 ? (y/n)');
+const answer = readlineSync.question('Does convert download video to mp3 ? (y/n)'); // debug not work
 const urlContent = fs.readFileSync(urlFilePath);
-// const urls = JSON.parse(urlContent);
-const urls = [JSON.parse(urlContent)[0]];
+const urls = JSON.parse(urlContent);
+// const urls = [JSON.parse(urlContent)[0]]; // test
 
 (async function () {
   logger.debug('      *START*      ');
@@ -33,8 +34,8 @@ const urls = [JSON.parse(urlContent)[0]];
   await asyncForEach(urls, download);
 
   // convert
-  if (!answer || answer.toLowerCase==='y' || answer.toLowerCase==='yes') {
-    await asyncForEach(successUrls, convertToMP3);
+  if (!answer || answer.toLowerCase === 'y' || answer.toLowerCase === 'yes') {
+    await asyncForEach(successFilenames, convertToMP3);
   }
 
   logger.debug('      *END*      ');
@@ -79,21 +80,43 @@ async function download(url, index, urls) {
       });
     });
 
-    successUrls.push(filename);
-    logger.debug(`success: ${filename}`);
+    successFilenames.push(filename);
+    logger.debug(`[download] success: ${filename}`);
 
-  } catch (error) {
-    logger.error(`fail: ${filename}\n${error}`);
+  } catch (error) { // TODO: UnhandledPromiseRejectionWarning: Error: This video is unavailable
+    logger.error(`[download] fail: ${filename}\n${error}`);
   }
 }
 
 /**
- * convert mp4 to mp3 of success url 
- * @param {*} successUrl 
+ * convert mp4 to mp3 of success filename 
+ * @param {*} successFilename 
  * @param {*} index 
- * @param {*} successUrls 
+ * @param {*} successFilenames 
  */
-async function convertToMP3(successUrl, index, successUrls) {
+async function convertToMP3(successFilename, index, successFilenames) {
 
-  logger.debug(successUrl);
+  const sourceFileName = successFilename;
+  const targetFileName = `${path.basename(successFilename, '.mp4')}.mp3`;
+
+  const sourcePath = path.join(downloadFolderPath, sourceFileName);
+  const targetPath = path.join(downloadFolderPath, targetFileName);
+
+  try {
+
+    var video = await new ffmpeg(sourcePath);
+
+    // convert to target
+    const result = await video.fnExtractSoundToMP3(targetPath); // edit source code & fnExtractSoundToMP3 return promise
+
+    // delete source
+    if (fs.existsSync(sourcePath)) {
+			fs.unlinkSync(sourcePath);
+    }
+
+    logger.debug(`[convert] success: ${targetFileName}`);
+
+  } catch (error) { // TODO: same as download
+    logger.error(`[convert] fail: ${targetFileName}\n${error}`);
+  }
 }
