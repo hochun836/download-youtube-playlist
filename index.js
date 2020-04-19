@@ -107,7 +107,9 @@ async function convertToMP3(successFilename, index, successFilenames) {
     var video = await new ffmpeg(sourcePath);
 
     // convert to target
-    const result = await video.fnExtractSoundToMP3(targetPath); // edit source code & fnExtractSoundToMP3 return promise
+    // notice 1. edit source code because https://stackoverflow.com/questions/22766111/ffmpeg-not-working-with-filenames-that-have-whitespace
+    //        2. fnExtractSoundToMP3 does return promise
+    const result = await video.fnExtractSoundToMP3(targetPath);
 
     // delete source
     if (fs.existsSync(sourcePath)) {
