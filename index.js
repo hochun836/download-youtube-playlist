@@ -22,7 +22,7 @@ const answer = readlineSync.question('Does convert download video to mp3 ? (y/n)
   await asyncForEach(urls, download, downloadFolderPath);
 
   // convert
-  if (!answer && (answer.toLowerCase === 'y' || answer.toLowerCase === 'yes')) {
+  if (!answer || answer.toLowerCase === 'y' || answer.toLowerCase === 'yes') {
     const fileNames = getAllFileNames(downloadFolderPath);
     const mp3FolderPath = createFolder(`${downloadFolderPath}/mp3`);
     await asyncForEach(fileNames, convertMP4ToMP3, downloadFolderPath, mp3FolderPath);
