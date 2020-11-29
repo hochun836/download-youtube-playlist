@@ -15,7 +15,6 @@ dotenv.config({
 
 // variable
 const successFilenames = [];
-// const successFilenames = ['463. Ahiru no Sora Opening 3 HQ Full - 『Humming Bird』 by BLUE ENCOUNT.mp4']; // test
 const logger = log4js.getLogger();
 let count = process.env.VIDEO_COUNT;
 const urlFilePath = process.env.URL_FILE_PATH;
@@ -25,7 +24,6 @@ const downloadFolderPath = process.env.DOWNLOAD_FOLDER_PATH;
 const answer = readlineSync.question('Does convert download video to mp3 ? (y/n)'); // debug not work
 const urlContent = fs.readFileSync(urlFilePath);
 const urls = JSON.parse(urlContent);
-// const urls = [JSON.parse(urlContent)[0]]; // test
 
 (async function () {
   logger.debug('      *START*      ');
