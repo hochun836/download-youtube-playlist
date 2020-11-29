@@ -4,17 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index",
+    "test": "node test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "ffmpeg": "0.0.4",
     "log4js": "^6.2.0",
     "readline-sync": "^1.4.10",
     "sanitize-filename": "^1.6.3",
-    "ytdl-core": "^2.1.0"
+    "ytdl-core": "^4.1.0"
   }
 }

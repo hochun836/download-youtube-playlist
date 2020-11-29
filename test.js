@@ -4,14 +4,13 @@ const dotenv = require('dotenv');
 const logger = require('./util/log-util');
 const { asyncForEach } = require('./util/common-util');
 const { download } = require('./util/ytdl-util');
-const { createTodayFolder } = require('./util/file-util');
 
 // config
 dotenv.config({
-  path: './environment/variable.env'
+  path: './environment/variable.test.env'
 });
 
-const downloadFolderPath = createTodayFolder(process.env.DOWNLOAD_FOLDER_PATH);
+const downloadFolderPath = process.env.DOWNLOAD_FOLDER_PATH;
 const urlFilePath = process.env.URL_FILE_PATH;
 const urlContent = fs.readFileSync(urlFilePath);
 const urls = JSON.parse(urlContent);
