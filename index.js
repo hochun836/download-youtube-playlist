@@ -1,15 +1,10 @@
 // require
+require('./util/env-util')();
 const fs = require('fs');
-const dotenv = require('dotenv');
 const logger = require('./util/log-util');
 const { asyncForEach } = require('./util/common-util');
 const { download } = require('./util/ytdl-util');
 const { createTodayFolder } = require('./util/file-util');
-
-// config
-dotenv.config({
-  path: './environment/variable.env'
-});
 
 const downloadFolderPath = createTodayFolder(process.env.DOWNLOAD_FOLDER_PATH);
 const urlFilePath = process.env.URL_FILE_PATH;

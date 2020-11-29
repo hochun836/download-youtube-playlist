@@ -1,0 +1,32 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console"
+    },
+    "app": {
+      "type": "dateFile",
+      "filename": "log/test/app.log",
+      "pattern": "-yyyy-MM-dd"
+    },
+    "errorFile": {
+      "type": "dateFile",
+      "filename": "log/test/errors.log",
+      "pattern": "-yyyy-MM-dd"
+    },
+    "errors": {
+      "type": "logLevelFilter",
+      "level": "ERROR",
+      "appender": "errorFile"
+    }
+  },
+  "categories": {
+    "default": {
+      "appenders": [
+        "console",
+        "app",
+        "errors"
+      ],
+      "level": "DEBUG"
+    }
+  }
+}
